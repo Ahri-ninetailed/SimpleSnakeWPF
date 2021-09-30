@@ -21,7 +21,7 @@ namespace SimpleSnake
     /// 
     public partial class Food
     {
-        private Dictionary<Image, Tuple<double, double>> allFood = new Dictionary<Image, Tuple<double, double>>();
+        public Dictionary<Tuple<double, double>, Image> allFood = new Dictionary<Tuple<double, double>, Image>();
         private Random random = new Random();
         private Image createImage(int left, int top)
         {
@@ -54,10 +54,10 @@ namespace SimpleSnake
         {
             BitmapImage bitmapImage = createBitmapImage();
             var w_h = optimizedCoordinates();
-            if (allFood.ContainsValue(new Tuple<double, double>(w_h[0], w_h[1])))
+            if (allFood.ContainsKey(new Tuple<double, double>(w_h[0], w_h[1])))
             {
                 var tempArCreateFood = optimizedCoordinates();
-                while(allFood.ContainsValue(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])))
+                while(allFood.ContainsKey(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])))
                 {
                     tempArCreateFood = optimizedCoordinates();
                 }
@@ -66,7 +66,7 @@ namespace SimpleSnake
             Image image = createImage(w_h[0], w_h[1]);
             image.Stretch = Stretch.UniformToFill;
             image.Source = bitmapImage;
-            allFood.Add(image, new Tuple<double, double>(image.Margin.Left, image.Margin.Top));
+            allFood.Add(new Tuple<double, double>(image.Margin.Left, image.Margin.Top), image);
             return image;
 
         }
@@ -132,7 +132,7 @@ namespace SimpleSnake
             timerSnake.Interval = new TimeSpan(0, 0, 1);
 
             timerFood.Tick += new EventHandler(timerTickCreateFood);
-            timerFood.Interval = new TimeSpan(0, 0, 0,0,30);
+            timerFood.Interval = new TimeSpan(0, 0, 2);
 
 
         }
@@ -150,18 +150,19 @@ namespace SimpleSnake
         }
         private void timerTickCreateFood(object sender, EventArgs e)
         {
-            
-            
-
             MainGrid.Children.Add(foods.CreateFood());
             //MainGrid.Children.Remove(rectangle);
-
-
-
-
         }
         private void timerTickSnakeMoving(object sender, EventArgs e)
         {
+            
+            controlSnake();
+            if (foods.allFood.ContainsKey(new Tuple<double, double>(snake.MarginLeft, snake.MarginTop)))
+            {
+                MainGrid.Children.Remove(foods.allFood[new Tuple<double, double>(snake.MarginLeft, snake.MarginTop)]);
+            }
+            cord.Content = MySnake.Margin.Left.ToString() + " : " + MySnake.Margin.Top.ToString();//темп
+
             void controlSnake()
             {
                 if (snake.DirectionSnake.Equals("d", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Right", StringComparison.OrdinalIgnoreCase))
@@ -188,9 +189,6 @@ namespace SimpleSnake
 
                 }
             }
-            controlSnake();
-            cord.Content = MySnake.Margin.Left.ToString() + " : " + MySnake.Margin.Top.ToString();//темп
-
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
