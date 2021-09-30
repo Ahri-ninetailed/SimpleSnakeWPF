@@ -21,6 +21,7 @@ namespace SimpleSnake
     /// 
     public partial class Food
     {
+        private Dictionary<Image, Tuple<double, double>> allFood = new Dictionary<Image, Tuple<double, double>>();
         private Random random = new Random();
         private Image createImage(int left, int top)
         {
@@ -53,10 +54,21 @@ namespace SimpleSnake
         {
             BitmapImage bitmapImage = createBitmapImage();
             var w_h = optimizedCoordinates();
+            if (allFood.ContainsValue(new Tuple<double, double>(w_h[0], w_h[1])))
+            {
+                var tempArCreateFood = optimizedCoordinates();
+                while(allFood.ContainsValue(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])))
+                {
+                    tempArCreateFood = optimizedCoordinates();
+                }
+                w_h = tempArCreateFood;
+            }
             Image image = createImage(w_h[0], w_h[1]);
             image.Stretch = Stretch.UniformToFill;
             image.Source = bitmapImage;
+            allFood.Add(image, new Tuple<double, double>(image.Margin.Left, image.Margin.Top));
             return image;
+
         }
 
         private static BitmapImage createBitmapImage()
