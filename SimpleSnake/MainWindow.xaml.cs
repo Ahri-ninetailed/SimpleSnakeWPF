@@ -19,11 +19,12 @@ namespace SimpleSnake
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     /// 
-
+    public partial class Food
+    {
+    }
     public partial class MySnake
     {
         public event Action SnakeDead;
-
         public string DirectionSnake { get; set; } = "";
         private double marginLeft;
         private double marginTop;
@@ -56,51 +57,93 @@ namespace SimpleSnake
     }
     public partial class MainWindow : Window
     {
+        Food foods;
         MySnake snake = new MySnake();
+        System.Windows.Threading.DispatcherTimer timerSnake = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer timerFood = new System.Windows.Threading.DispatcherTimer();
         public MainWindow()
         {
             InitializeComponent();
             ContentRendered += Window_ContentRendered;
             KeyDown += Window_KeyDown;
             snake.SnakeDead += Snake_SnakeDead;
+
+
+            timerSnake.Tick += new EventHandler(timerTickSnakeMoving);
+            timerSnake.Interval = new TimeSpan(0, 0, 1);
+
+            timerFood.Tick += new EventHandler(timerTickCreateFood);
+            timerFood.Interval = new TimeSpan(0, 0, 2);
+
+
         }
 
         private void Snake_SnakeDead()
         {
             if (snake.MarginLeft < 0 || snake.MarginTop < 0 || snake.MarginLeft > 770 || snake.MarginTop > 570)
-            { Close(); }    
-            
+            { timerFood.Stop(); timerSnake.Stop(); Close(); }
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Background = new SolidColorBrush(Colors.DimGray);
         }
+        private void timerTickCreateFood(object sender, EventArgs e)
+        {
+            Image image = new Image()
+            {
+                Width = 30,
+                Height = 30,
+                Margin = new Thickness(1, 1, 0, 0)
+            };
 
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri("foodImage.png", UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
+            image.Stretch = Stretch.UniformToFill;
+            image.Source = bitmapImage;
+            // Add the parent Canvas as the Content of the Window Object
+            Rectangle rectangle = new Rectangle
+            {
+                
+                Width = 100,
+                Height = 100,
+                Fill = Brushes.Red
+            };
+            MainGrid.Children.Add(image);
+            //Content = MainGrid;
+            //Show();
+
+            //MainGrid.Children.Remove(rectangle);
+
+
+        }
         private void timerTickSnakeMoving(object sender, EventArgs e)
         {
             void controlSnake()
             {
                 if (snake.DirectionSnake.Equals("d", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Right", StringComparison.OrdinalIgnoreCase))
                 {
-                    MySnake.Margin = new Thickness(MySnake.Margin.Left + MySnake.Width / 2, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left + MySnake.Width, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
                     snake.SetMargin(MySnake.Margin);
                 }
                 if (snake.DirectionSnake.Equals("a", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Left", StringComparison.OrdinalIgnoreCase))
                 {
-                    MySnake.Margin = new Thickness(MySnake.Margin.Left - MySnake.Width / 2, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left - MySnake.Width, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
                     snake.SetMargin(MySnake.Margin);
 
                 }
                 if (snake.DirectionSnake.Equals("s", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Down", StringComparison.OrdinalIgnoreCase))
                 {
-                    MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top + MySnake.Width / 2, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top + MySnake.Width, MySnake.Margin.Right, MySnake.Margin.Bottom);
                     snake.SetMargin(MySnake.Margin);
 
                 }
                 if (snake.DirectionSnake.Equals("w", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Up", StringComparison.OrdinalIgnoreCase))
                 {
-                    MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top - MySnake.Width / 2, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top - MySnake.Width, MySnake.Margin.Right, MySnake.Margin.Bottom);
                     snake.SetMargin(MySnake.Margin);
 
                 }
@@ -112,11 +155,9 @@ namespace SimpleSnake
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             cord.Content = MySnake.Margin.Left.ToString() + " : " + MySnake.Margin.Top.ToString();//темп
-
-            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-            timer.Tick += new EventHandler(timerTickSnakeMoving);
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+            timerSnake.Start();
+            timerFood.Start();
+            
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
