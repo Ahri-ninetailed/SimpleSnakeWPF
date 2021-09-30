@@ -21,6 +21,26 @@ namespace SimpleSnake
     /// 
     public partial class Food
     {
+        public Image CreateFood()
+        {
+            Image image = new Image()
+            {
+                Name = "food",
+                Width = 30,
+                Height = 30,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(1, 1, 0, 0)
+            };
+
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri("Properties/foodImage1.png", UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
+            image.Stretch = Stretch.UniformToFill;
+            image.Source = bitmapImage;
+            return image;
+        }
     }
     public partial class MySnake
     {
@@ -57,7 +77,7 @@ namespace SimpleSnake
     }
     public partial class MainWindow : Window
     {
-        Food foods;
+        Food foods = new Food();
         MySnake snake = new MySnake();
         System.Windows.Threading.DispatcherTimer timerSnake = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer timerFood = new System.Windows.Threading.DispatcherTimer();
@@ -91,32 +111,13 @@ namespace SimpleSnake
         }
         private void timerTickCreateFood(object sender, EventArgs e)
         {
-            Image image = new Image()
-            {
-                Width = 30,
-                Height = 30,
-                Margin = new Thickness(1, 1, 0, 0)
-            };
+            
+            
 
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri("foodImage.png", UriKind.RelativeOrAbsolute);
-            bitmapImage.EndInit();
-            image.Stretch = Stretch.UniformToFill;
-            image.Source = bitmapImage;
-            // Add the parent Canvas as the Content of the Window Object
-            Rectangle rectangle = new Rectangle
-            {
-                
-                Width = 100,
-                Height = 100,
-                Fill = Brushes.Red
-            };
-            MainGrid.Children.Add(image);
-            //Content = MainGrid;
-            //Show();
-
+            MainGrid.Children.Add(foods.CreateFood());
             //MainGrid.Children.Remove(rectangle);
+
+
 
 
         }
