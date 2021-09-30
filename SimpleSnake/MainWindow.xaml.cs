@@ -21,25 +21,51 @@ namespace SimpleSnake
     /// 
     public partial class Food
     {
-        public Image CreateFood()
+        private Random random = new Random();
+        private Image createImage(int left, int top)
         {
             Image image = new Image()
             {
-                Name = "food",
                 Width = 30,
                 Height = 30,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(1, 1, 0, 0)
+                Margin = new Thickness(left, top, 0, 0)
             };
+            return image;
+        }
+        private int[] optimizedCoordinates()
+        {
+            int w = random.Next(0, 771);
+            int h = random.Next(0, 571);
+            if (w % 30 != 0)
+            {
+                w -= (w % 30);
+            }
+            if (h % 30 != 0)
+            {
+                h -= (h % 30);
+            }
+            return new int[] { w, h };
 
+        }
+        public Image CreateFood()
+        {
+            BitmapImage bitmapImage = createBitmapImage();
+            var w_h = optimizedCoordinates();
+            Image image = createImage(w_h[0], w_h[1]);
+            image.Stretch = Stretch.UniformToFill;
+            image.Source = bitmapImage;
+            return image;
+        }
+
+        private static BitmapImage createBitmapImage()
+        {
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri("Properties/foodImage1.png", UriKind.RelativeOrAbsolute);
             bitmapImage.EndInit();
-            image.Stretch = Stretch.UniformToFill;
-            image.Source = bitmapImage;
-            return image;
+            return bitmapImage;
         }
     }
     public partial class MySnake
@@ -77,6 +103,7 @@ namespace SimpleSnake
     }
     public partial class MainWindow : Window
     {
+        
         Food foods = new Food();
         MySnake snake = new MySnake();
         System.Windows.Threading.DispatcherTimer timerSnake = new System.Windows.Threading.DispatcherTimer();
@@ -93,7 +120,7 @@ namespace SimpleSnake
             timerSnake.Interval = new TimeSpan(0, 0, 1);
 
             timerFood.Tick += new EventHandler(timerTickCreateFood);
-            timerFood.Interval = new TimeSpan(0, 0, 2);
+            timerFood.Interval = new TimeSpan(0, 0, 1);
 
 
         }
