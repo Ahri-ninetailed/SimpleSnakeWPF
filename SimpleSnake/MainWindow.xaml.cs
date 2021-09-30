@@ -25,8 +25,28 @@ namespace SimpleSnake
         public event Action SnakeDead;
 
         public string DirectionSnake { get; set; } = "";
-        public double MarginLeft { get; set; }
-        public double MarginTop { get; set; }
+        private double marginLeft;
+        private double marginTop;
+
+        public double MarginLeft
+        {
+            get { return marginLeft; }
+            set
+            {
+                marginLeft = value;
+                SnakeDead();
+            }
+        }
+        public double MarginTop
+        {
+            get { return marginTop; }
+            set
+            {
+                marginTop = value;
+                SnakeDead();
+
+            }
+        }
         public void SetMargin(Thickness thickness)
         {
             MarginLeft = thickness.Left;
@@ -42,15 +62,19 @@ namespace SimpleSnake
             InitializeComponent();
             ContentRendered += Window_ContentRendered;
             KeyDown += Window_KeyDown;
-
+            snake.SnakeDead += Snake_SnakeDead;
         }
 
+        private void Snake_SnakeDead()
+        {
+            if (snake.MarginLeft < 0 || snake.MarginTop < 0 || snake.MarginLeft > 770 || snake.MarginTop > 570)
+            { Close(); }    
+            
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Background = new SolidColorBrush(Colors.DimGray);
-            
-
         }
 
         private void timerTickSnakeMoving(object sender, EventArgs e)
