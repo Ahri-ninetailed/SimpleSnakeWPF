@@ -38,7 +38,7 @@ namespace SimpleSnake
         private int[] optimizedCoordinates()
         {
             int w = random.Next(0, 771);
-            int h = random.Next(0, 571);
+            int h = random.Next(0, 570);
             if (w % 30 != 0)
             {
                 w -= (w % 30);
@@ -132,7 +132,7 @@ namespace SimpleSnake
             timerSnake.Interval = new TimeSpan(0, 0, 1);
 
             timerFood.Tick += new EventHandler(timerTickCreateFood);
-            timerFood.Interval = new TimeSpan(0, 0, 1);
+            timerFood.Interval = new TimeSpan(0, 0, 0,0,30);
 
 
         }
