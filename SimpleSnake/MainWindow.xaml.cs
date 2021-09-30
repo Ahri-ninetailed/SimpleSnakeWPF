@@ -18,16 +18,33 @@ namespace SimpleSnake
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+    /// 
+
+    public partial class MySnake
+    {
+        public event Action SnakeDead;
+
+        public string DirectionSnake { get; set; } = "";
+        public double MarginLeft { get; set; }
+        public double MarginTop { get; set; }
+        public void SetMargin(Thickness thickness)
+        {
+            MarginLeft = thickness.Left;
+            MarginTop = thickness.Top;
+        }
+
+    }
     public partial class MainWindow : Window
     {
-        private string directionSnake = "";
+        MySnake snake = new MySnake();
         public MainWindow()
         {
             InitializeComponent();
             ContentRendered += Window_ContentRendered;
             KeyDown += Window_KeyDown;
-            
+
         }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -38,17 +55,40 @@ namespace SimpleSnake
 
         private void timerTickSnakeMoving(object sender, EventArgs e)
         {
-            if (directionSnake.Equals("d", StringComparison.OrdinalIgnoreCase) || directionSnake.Equals("Right", StringComparison.OrdinalIgnoreCase))
-                MySnake.Margin = new Thickness(MySnake.Margin.Left + MySnake.Width/2, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
-            if (directionSnake.Equals("a", StringComparison.OrdinalIgnoreCase) || directionSnake.Equals("Left", StringComparison.OrdinalIgnoreCase))
-                MySnake.Margin = new Thickness(MySnake.Margin.Left - MySnake.Width / 2, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
-            if (directionSnake.Equals("s", StringComparison.OrdinalIgnoreCase) || directionSnake.Equals("Down", StringComparison.OrdinalIgnoreCase))
-                MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top + MySnake.Width / 2, MySnake.Margin.Right, MySnake.Margin.Bottom);
-            if (directionSnake.Equals("w", StringComparison.OrdinalIgnoreCase) || directionSnake.Equals("Up", StringComparison.OrdinalIgnoreCase))
-                MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top - MySnake.Width / 2, MySnake.Margin.Right, MySnake.Margin.Bottom);
+            void controlSnake()
+            {
+                if (snake.DirectionSnake.Equals("d", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Right", StringComparison.OrdinalIgnoreCase))
+                {
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left + MySnake.Width / 2, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    snake.SetMargin(MySnake.Margin);
+                }
+                if (snake.DirectionSnake.Equals("a", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Left", StringComparison.OrdinalIgnoreCase))
+                {
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left - MySnake.Width / 2, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    snake.SetMargin(MySnake.Margin);
+
+                }
+                if (snake.DirectionSnake.Equals("s", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Down", StringComparison.OrdinalIgnoreCase))
+                {
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top + MySnake.Width / 2, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    snake.SetMargin(MySnake.Margin);
+
+                }
+                if (snake.DirectionSnake.Equals("w", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Up", StringComparison.OrdinalIgnoreCase))
+                {
+                    MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top - MySnake.Width / 2, MySnake.Margin.Right, MySnake.Margin.Bottom);
+                    snake.SetMargin(MySnake.Margin);
+
+                }
+            }
+            controlSnake();
+            cord.Content = MySnake.Margin.Left.ToString() + " : " + MySnake.Margin.Top.ToString();//темп
+
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
+            cord.Content = MySnake.Margin.Left.ToString() + " : " + MySnake.Margin.Top.ToString();//темп
+
             System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
             timer.Tick += new EventHandler(timerTickSnakeMoving);
             timer.Interval = new TimeSpan(0, 0, 1);
@@ -57,8 +97,13 @@ namespace SimpleSnake
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            directionSnake = e.Key.ToString();
-            but.Content = directionSnake;
+            snake.DirectionSnake = e.Key.ToString();
+            but.Content = snake.DirectionSnake;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            MessageBox.Show("Конец игры");
         }
     }
 
