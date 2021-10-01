@@ -84,8 +84,6 @@ namespace SimpleSnake
     {
         public event Action SnakeDead;
         public string DirectionSnake { get; set; } = "Up";
-        private double marginLeft;
-        private double marginTop;
         public int CountHead { get; set; } = 1;
         public Rectangle Tail { get; set; } = new Rectangle()
         {
@@ -129,29 +127,8 @@ namespace SimpleSnake
                 SnakeDead();
             }
         }
-        public double MarginLeft
+        public void SetHeadMargin(Thickness thickness)
         {
-            get { return marginLeft; }
-            set
-            {
-                marginLeft = value;
-                SnakeDead();
-            }
-        }
-        public double MarginTop
-        {
-            get { return marginTop; }
-            set
-            {
-                marginTop = value;
-                SnakeDead();
-
-            }
-        }
-        public void SetMargin(Thickness thickness)
-        {
-            MarginLeft = thickness.Left;
-            MarginTop = thickness.Top;
             HeadMarginLeft = thickness.Left;
             HeadMarginTop = thickness.Top;
         }
@@ -226,7 +203,7 @@ namespace SimpleSnake
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
-                        snake.SetMargin(MySnake.Margin);
+                        snake.SetHeadMargin(MySnake.Margin);
                         snake.SetTailMargin(MySnake.Margin);
                     }
                     if (snake.DirectionSnake.Equals("a", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Left", StringComparison.OrdinalIgnoreCase))
@@ -238,7 +215,7 @@ namespace SimpleSnake
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
-                        snake.SetMargin(MySnake.Margin);
+                        snake.SetHeadMargin(MySnake.Margin);
                         snake.SetTailMargin(MySnake.Margin);
                     }
                     if (snake.DirectionSnake.Equals("s", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Down", StringComparison.OrdinalIgnoreCase))
@@ -250,7 +227,7 @@ namespace SimpleSnake
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
-                        snake.SetMargin(MySnake.Margin);
+                        snake.SetHeadMargin(MySnake.Margin);
                         snake.SetTailMargin(MySnake.Margin);
                     }
                     if (snake.DirectionSnake.Equals("w", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Up", StringComparison.OrdinalIgnoreCase))
@@ -262,7 +239,7 @@ namespace SimpleSnake
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
-                        snake.SetMargin(MySnake.Margin);
+                        snake.SetHeadMargin(MySnake.Margin);
                         snake.SetTailMargin(MySnake.Margin);
                     }
                 }
