@@ -243,9 +243,7 @@ namespace SimpleSnake
                 {
                     if (snake.CountHead == 1)
                     {
-
                         snake.SetPrevMargin(MySnake.Margin);
-
                         MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top - MySnake.Width, MySnake.Margin.Right, MySnake.Margin.Bottom);
                         snake.Head.Margin = MySnake.Margin;
                         snake.Head.Fill = MySnake.Fill;
@@ -258,24 +256,15 @@ namespace SimpleSnake
                     {
                         MainGrid.Children.Remove(snake.Head);
                         MainGrid.Children.Remove(snake.Tail);
-                        //Thickness temp = snake.Tail.Margin;
                         snake.Tail.Margin = snake.Head.Margin;
-                        //snake.Tail.Margin = new Thickness(snake.Tail.Margin.Left, snake.Tail.Margin.Top - 30, 0, 0);
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left, snake.Head.Margin.Top - 30, 0, 0);
-                        snake.Head.Fill = Brushes.Black;
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
-
-                        /*snake.Tail = new Rectangle()
+                        if (!startedMySnakeDeleted)
                         {
-                            Fill = MySnake.Fill,
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                            Height = 30,
-                            Width = 30,
-                            Stroke = Brushes.Black,
-                            VerticalAlignment = VerticalAlignment.Top,
-                            Margin = new Thickness(snake.MarginLeft, snake.MarginTop, 0, 0)
-                        };*/
+                            MainGrid.Children.Remove(MySnake);//убирает изначальный объект MySnake
+                            startedMySnakeDeleted = true;
+                        }
 
 
                     }
@@ -305,11 +294,6 @@ namespace SimpleSnake
                 MainGrid.Children.Add(snake.Tail);
                 snake.SetTailMargin(snake.Tail.Margin);
                 
-                //
-                MainGrid.Children.Remove(snake.Head);
-                snake.Head.Fill = Brushes.Green;
-                MainGrid.Children.Add(snake.Head);
-
             }
 
 
@@ -333,6 +317,7 @@ namespace SimpleSnake
         {
             MessageBox.Show("Конец игры");
         }
+        private bool startedMySnakeDeleted = false;
     }
 
 }
