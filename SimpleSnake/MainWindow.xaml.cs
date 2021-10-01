@@ -97,8 +97,6 @@ namespace SimpleSnake
         };
         public double TailMarginLeft { get; set; }
         public double TailMarginTop { get; set; }
-        public double PrevMarginLeft { get; set; }
-        public double PrevMarginTop { get; set; }
         public Rectangle Head { get; set; } = new Rectangle()
         {
             HorizontalAlignment = HorizontalAlignment.Left,
@@ -107,6 +105,30 @@ namespace SimpleSnake
             Stroke = Brushes.Black,
             VerticalAlignment = VerticalAlignment.Top,
         };
+        public double HeadMarginLeft
+        {
+            get
+            {
+                return Head.Margin.Left;
+            }
+            set
+            {
+                Head.Margin = new Thickness(value, HeadMarginTop, 0, 0);
+                SnakeDead();
+            }
+        }
+        public double HeadMarginTop
+        {
+            get
+            {
+                return Head.Margin.Top;
+            }
+            set
+            {
+                Head.Margin = new Thickness(HeadMarginLeft, value, 0, 0);
+                SnakeDead();
+            }
+        }
         public double MarginLeft
         {
             get { return marginLeft; }
@@ -130,16 +152,13 @@ namespace SimpleSnake
         {
             MarginLeft = thickness.Left;
             MarginTop = thickness.Top;
+            HeadMarginLeft = thickness.Left;
+            HeadMarginTop = thickness.Top;
         }
         public void SetTailMargin(Thickness thickness)
         {
             TailMarginLeft = thickness.Left;
             TailMarginTop = thickness.Top;
-        }
-        public void SetPrevMargin(Thickness thickness)
-        {
-            PrevMarginLeft = thickness.Left;
-            PrevMarginTop = thickness.Top;
         }
     }
     public partial class MainWindow : Window
@@ -168,7 +187,7 @@ namespace SimpleSnake
 
         private void Snake_SnakeDead()
         {
-            if (snake.Head.Margin.Left < 0 || snake.Head.Margin.Top < 0 || snake.Head.Margin.Left > 750 || snake.Head.Margin.Top > 540)
+            if (snake.HeadMarginLeft < 0 || snake.HeadMarginTop < 0 || snake.HeadMarginLeft > 750 || snake.HeadMarginTop > 540)
             { timerFood.Stop(); timerSnake.Stop(); Close(); }
 
         }
@@ -186,9 +205,9 @@ namespace SimpleSnake
         {
             
             controlSnake();
-            if (foods.allFood.ContainsKey(new Tuple<double, double>(snake.Head.Margin.Left, snake.Head.Margin.Top)))
+            if (foods.allFood.ContainsKey(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop)))
             {
-                MainGrid.Children.Remove(foods.allFood[new Tuple<double, double>(snake.Head.Margin.Left, snake.Head.Margin.Top)]);
+                MainGrid.Children.Remove(foods.allFood[new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop)]);
                 Growth(snake);
                 snake.CountHead += 1;
             }
@@ -200,9 +219,10 @@ namespace SimpleSnake
                 {
                     if (snake.DirectionSnake.Equals("d", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Right", StringComparison.OrdinalIgnoreCase))
                     {
-                        snake.SetPrevMargin(MySnake.Margin);
                         MySnake.Margin = new Thickness(MySnake.Margin.Left + 30, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
                         snake.Head.Margin = MySnake.Margin;
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
@@ -211,9 +231,10 @@ namespace SimpleSnake
                     }
                     if (snake.DirectionSnake.Equals("a", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Left", StringComparison.OrdinalIgnoreCase))
                     {
-                        snake.SetPrevMargin(MySnake.Margin);
                         MySnake.Margin = new Thickness(MySnake.Margin.Left - 30, MySnake.Margin.Top, MySnake.Margin.Right, MySnake.Margin.Bottom);
                         snake.Head.Margin = MySnake.Margin;
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
@@ -222,9 +243,10 @@ namespace SimpleSnake
                     }
                     if (snake.DirectionSnake.Equals("s", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Down", StringComparison.OrdinalIgnoreCase))
                     {
-                        snake.SetPrevMargin(MySnake.Margin);
                         MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top + MySnake.Width, MySnake.Margin.Right, MySnake.Margin.Bottom);
                         snake.Head.Margin = MySnake.Margin;
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
@@ -233,9 +255,10 @@ namespace SimpleSnake
                     }
                     if (snake.DirectionSnake.Equals("w", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Up", StringComparison.OrdinalIgnoreCase))
                     {
-                        snake.SetPrevMargin(MySnake.Margin);
                         MySnake.Margin = new Thickness(MySnake.Margin.Left, MySnake.Margin.Top - MySnake.Width, MySnake.Margin.Right, MySnake.Margin.Bottom);
                         snake.Head.Margin = MySnake.Margin;
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         snake.Head.Fill = MySnake.Fill;
                         snake.Tail.Margin = MySnake.Margin;
                         snake.Tail.Fill = Brushes.Red;
@@ -252,6 +275,8 @@ namespace SimpleSnake
                         MainGrid.Children.Remove(snake.Tail);
                         snake.Tail.Margin = snake.Head.Margin;
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left + 30, snake.Head.Margin.Top, 0, 0);
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         snake.Head.Fill = Brushes.Black;
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
@@ -267,6 +292,8 @@ namespace SimpleSnake
                         MainGrid.Children.Remove(snake.Tail);
                         snake.Tail.Margin = snake.Head.Margin;
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left - 30, snake.Head.Margin.Top, 0, 0);
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
                         if (!startedMySnakeDeleted)
@@ -281,6 +308,8 @@ namespace SimpleSnake
                         MainGrid.Children.Remove(snake.Tail);
                         snake.Tail.Margin = snake.Head.Margin;
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left, snake.Head.Margin.Top + 30, 0, 0);
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
                         if (!startedMySnakeDeleted)
@@ -295,6 +324,8 @@ namespace SimpleSnake
                         MainGrid.Children.Remove(snake.Tail);
                         snake.Tail.Margin = snake.Head.Margin;
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left, snake.Head.Margin.Top - 30, 0, 0);
+                        snake.HeadMarginLeft = snake.Head.Margin.Left;
+                        snake.HeadMarginTop = snake.Head.Margin.Top;
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
                         if (!startedMySnakeDeleted)
@@ -322,7 +353,14 @@ namespace SimpleSnake
             };
             if (snake.CountHead == 1)
             {
-                newTail.Margin = new Thickness(snake.PrevMarginLeft, snake.PrevMarginTop, 0, 0);
+                if (snake.DirectionSnake == "Up" || snake.DirectionSnake == "W")
+                    newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop + 30, 0, 0);
+                if (snake.DirectionSnake == "Down" || snake.DirectionSnake == "S")
+                    newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop - 30, 0, 0);
+                if (snake.DirectionSnake == "Left" || snake.DirectionSnake == "A")
+                    newTail.Margin = new Thickness(snake.HeadMarginLeft + 30, snake.HeadMarginTop, 0, 0);
+                if (snake.DirectionSnake == "Rifht" || snake.DirectionSnake == "D")
+                    newTail.Margin = new Thickness(snake.HeadMarginLeft - 30, snake.HeadMarginTop, 0, 0);
                 newTail.Fill = Brushes.Red;
                 snake.Tail = newTail;
                 MainGrid.Children.Add(snake.Tail);
