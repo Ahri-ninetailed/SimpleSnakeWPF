@@ -420,15 +420,9 @@ namespace SimpleSnake
             };
             if (snake.CountHead == 1)
             {
-                if (snake.DirectionSnake == "Up" || snake.DirectionSnake == "W")
-                    newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop + 30, 0, 0);
-                if (snake.DirectionSnake == "Down" || snake.DirectionSnake == "S")
-                    newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop - 30, 0, 0);
-                if (snake.DirectionSnake == "Left" || snake.DirectionSnake == "A")
-                    newTail.Margin = new Thickness(snake.HeadMarginLeft + 30, snake.HeadMarginTop, 0, 0);
-                if (snake.DirectionSnake == "Right" || snake.DirectionSnake == "D")
-                    newTail.Margin = new Thickness(snake.HeadMarginLeft - 30, snake.HeadMarginTop, 0, 0);
+
                 newTail.Fill = Brushes.Red;
+                newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop, 0, 0);
                 snake.Tail = newTail;
                 MainGrid.Children.Add(snake.Tail);
                 snake.SetTailMargin(snake.Tail.Margin);
