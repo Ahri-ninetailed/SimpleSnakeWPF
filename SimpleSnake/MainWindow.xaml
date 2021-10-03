@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SimpleSnake"
         mc:Ignorable="d"
-        Title="MainWindow" Height="570" Width="780" Background="#FF707070" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown" Closed="Window_Closed" WindowStyle="None" ResizeMode="NoResize">
-    <Grid Name ="MainGrid" Height="570" Margin="0,0,0,0" Width="780">
+        Title="MainWindow" Height="570" Width="780" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown" Closed="Window_Closed" WindowStyle="None" ResizeMode="NoResize">
+    <Grid Name ="MainGrid" Height="570" Margin="0,0,0,0" Width="780" Background="#FF707070">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>

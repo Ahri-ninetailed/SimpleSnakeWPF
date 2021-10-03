@@ -31,7 +31,8 @@ namespace SimpleSnake
                 Height = 30,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(left, top, 0, 0)
+                Margin = new Thickness(left, top, 0, 0),
+                
             };
             return image;
         }
@@ -70,16 +71,20 @@ namespace SimpleSnake
                 allFood.Add(new Tuple<double, double>(image.Margin.Left, image.Margin.Top), image);
             else
                 allFood[new Tuple<double, double>(image.Margin.Left, image.Margin.Top)] = image;
+            
+            
             return image;
 
         }
 
         private static BitmapImage createBitmapImage()
         {
+            
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri("Properties/foodImage1.png", UriKind.RelativeOrAbsolute);
+            bitmapImage.UriSource = new Uri("artichoke_PNG28.png", UriKind.RelativeOrAbsolute);
             bitmapImage.EndInit();
+            
             return bitmapImage;
         }
     }
@@ -213,6 +218,7 @@ namespace SimpleSnake
         private void timerTickCreateFood(object sender, EventArgs e)
         {
             MainGrid.Children.Add(foods.CreateFood());
+            
         }
         private void timerTickSnakeMoving(object sender, EventArgs e)
         {
