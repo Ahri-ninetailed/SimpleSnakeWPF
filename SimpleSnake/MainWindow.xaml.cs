@@ -191,7 +191,7 @@ namespace SimpleSnake
             timerSnake.Interval = new TimeSpan(0, 0, 0,0,700);
 
             timerFood.Tick += new EventHandler(timerTickCreateFood);
-            timerFood.Interval = new TimeSpan(0, 0, 0,0,500);
+            timerFood.Interval = new TimeSpan(0, 0, 0,0,1000);
 
 
         }
@@ -412,6 +412,7 @@ namespace SimpleSnake
                         snake.TailMarginLeft = snake.Bodies[0].Margin.Left;//
                         snake.TailMarginTop = snake.Bodies[0].Margin.Top;//
                         snake.Bodies[0].Margin = tempHeadMargin;
+                        
                         Rectangle temp = snake.Bodies[0];
                         SimpleSnake.MySnake.CoordAllFirstSnakeUnits[temp] = new Tuple<double, double>(temp.Margin.Left, temp.Margin.Top);
                         snake.Bodies.Remove(snake.Bodies[0]);
