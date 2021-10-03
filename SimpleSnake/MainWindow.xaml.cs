@@ -54,10 +54,10 @@ namespace SimpleSnake
         {
             BitmapImage bitmapImage = createBitmapImage();
             var w_h = optimizedCoordinates();
-            if (allFood.ContainsKey(new Tuple<double, double>(w_h[0], w_h[1])) && SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(w_h[0], w_h[1])))
+            if (allFood.ContainsKey(new Tuple<double, double>(w_h[0], w_h[1])) && SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(w_h[0], w_h[1])) && w_h[0] == SimpleSnake.MySnake.HeadMargin.Left && w_h[1] == SimpleSnake.MySnake.HeadMargin.Top)
             {
                 var tempArCreateFood = optimizedCoordinates();
-                while(allFood.ContainsKey(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])) && SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])))
+                while(allFood.ContainsKey(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])) && SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])) && tempArCreateFood[0] == SimpleSnake.MySnake.HeadMargin.Left && tempArCreateFood[1] == SimpleSnake.MySnake.HeadMargin.Top)
                 {
                     tempArCreateFood = optimizedCoordinates();
                 }
@@ -85,12 +85,13 @@ namespace SimpleSnake
     }
     public partial class MySnake
     {
+        public static Thickness HeadMargin;
         public static Dictionary<Rectangle, Tuple<double, double>> CoordAllFirstSnakeUnits = new Dictionary<Rectangle, Tuple<double, double>>();
         public List<Rectangle> Bodies { get; set; } = new List<Rectangle>();
-        public bool Growing;
+        public bool Growing =false;
         public bool StartedMySnakeDeleted = false;
         public event Action SnakeDead;
-        public string DirectionSnake { get; set; } = "";
+        public string DirectionSnake { get; set; } = "Up";
         public int CountHead { get; set; } = 1;
         public Rectangle Tail { get; set; } = new Rectangle()
         {
@@ -148,11 +149,12 @@ namespace SimpleSnake
             set
             {
                 Head.Margin = new Thickness(value, HeadMarginTop, 0, 0);
+                HeadMargin = new Thickness(value, HeadMarginTop, 0, 0);
                 SnakeDead();
-                if (!CoordAllFirstSnakeUnits.ContainsKey(Head))
+                /*if (!CoordAllFirstSnakeUnits.ContainsKey(Head))
                     CoordAllFirstSnakeUnits.Add(Head, new Tuple<double, double>(HeadMarginLeft, HeadMarginTop));
                 else
-                    CoordAllFirstSnakeUnits[Head] = new Tuple<double, double>(HeadMarginLeft, HeadMarginTop);
+                    CoordAllFirstSnakeUnits[Head] = new Tuple<double, double>(HeadMarginLeft, HeadMarginTop);*/
             }
         }
         public double HeadMarginTop
@@ -164,11 +166,12 @@ namespace SimpleSnake
             set
             {
                 Head.Margin = new Thickness(HeadMarginLeft, value, 0, 0);
+                HeadMargin = new Thickness(HeadMarginLeft, value, 0, 0);
                 SnakeDead();
-                if (!CoordAllFirstSnakeUnits.ContainsKey(Head))
+                /*if (!CoordAllFirstSnakeUnits.ContainsKey(Head))
                     CoordAllFirstSnakeUnits.Add(Head, new Tuple<double, double>(HeadMarginLeft, HeadMarginTop));
                 else
-                    CoordAllFirstSnakeUnits[Head] = new Tuple<double, double>(HeadMarginLeft, HeadMarginTop);
+                    CoordAllFirstSnakeUnits[Head] = new Tuple<double, double>(HeadMarginLeft, HeadMarginTop);*/
             }
         }
     }
@@ -191,7 +194,7 @@ namespace SimpleSnake
             timerSnake.Interval = new TimeSpan(0, 0, 0,0,700);
 
             timerFood.Tick += new EventHandler(timerTickCreateFood);
-            timerFood.Interval = new TimeSpan(0, 0, 0,0,2);
+            timerFood.Interval = new TimeSpan(0, 0, 0,0,700);
 
 
         }
@@ -215,22 +218,17 @@ namespace SimpleSnake
         {
             
             controlSnake();
-            if (foods.allFood.ContainsKey(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop)))
+            if (foods.allFood.ContainsKey(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop))) //ест апельсин
             {
                 MainGrid.Children.Remove(foods.allFood[new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop)]);
                 foods.allFood.Remove(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop));
                 Growth(snake);
                 snake.CountHead += 1;
             }
-            
-            if (snake.CountHead == 1)
-                CoorSnake.Content = $"{SimpleSnake.MySnake.CoordAllFirstSnakeUnits[snake.Head]}";
-            if (snake.CountHead == 2)
-                CoorSnake.Content = $"{SimpleSnake.MySnake.CoordAllFirstSnakeUnits[snake.Head]}\n{SimpleSnake.MySnake.CoordAllFirstSnakeUnits[snake.Tail]}";
-            if (snake.CountHead == 3)
-                CoorSnake.Content = $"{snake.HeadMarginLeft}:{snake.HeadMarginTop}\n {snake.TailMarginLeft}:{snake.TailMarginTop}\n{SimpleSnake.MySnake.CoordAllFirstSnakeUnits[snake.Bodies[0]]}";
-            if (snake.CountHead == 4)
-                CoorSnake.Content = $"{snake.HeadMarginLeft}:{snake.HeadMarginTop}\n {snake.TailMarginLeft}:{snake.TailMarginTop}\n{SimpleSnake.MySnake.CoordAllFirstSnakeUnits[snake.Bodies[0]]}\n{SimpleSnake.MySnake.CoordAllFirstSnakeUnits[snake.Bodies[1]]}";
+            if (SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop)) && snake.CountHead > 4 && snake.Growing == false)
+            {
+                Close();
+            }
             void controlSnake()
             {
                 snake.Head.Fill = Brushes.Black;
@@ -464,9 +462,13 @@ namespace SimpleSnake
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+
+            string tempKey = e.Key.ToString();
+            if (tempKey != "Up" && tempKey != "Down" && tempKey != "Left" && tempKey != "Right" && tempKey != "W" && tempKey != "A" && tempKey != "S" && tempKey != "D")
+                return;
+            CoorSnake.Content = tempKey;
             if (snake.CountHead != 1)
             {
-                string tempKey = e.Key.ToString();
                 if (snake.DirectionSnake == "Up" || snake.DirectionSnake == "W")
                 {
                     if (tempKey != "Down" && tempKey != "S")
@@ -489,14 +491,18 @@ namespace SimpleSnake
                 }
             }
             else
-                snake.DirectionSnake = e.Key.ToString();
+            {
+                
+                    snake.DirectionSnake = tempKey;
+            }
+            
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             MessageBox.Show("Конец игры");
         }
-        
+
     }
 
 }
