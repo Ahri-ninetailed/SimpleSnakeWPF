@@ -191,7 +191,7 @@ namespace SimpleSnake
             timerSnake.Interval = new TimeSpan(0, 0, 0,0,700);
 
             timerFood.Tick += new EventHandler(timerTickCreateFood);
-            timerFood.Interval = new TimeSpan(0, 0, 0,0,500);
+            timerFood.Interval = new TimeSpan(0, 0, 0,0,1000);
 
 
         }
@@ -210,7 +210,6 @@ namespace SimpleSnake
         private void timerTickCreateFood(object sender, EventArgs e)
         {
             MainGrid.Children.Add(foods.CreateFood());
-            //MainGrid.Children.Remove(rectangle);
         }
         private void timerTickSnakeMoving(object sender, EventArgs e)
         {
@@ -325,14 +324,6 @@ namespace SimpleSnake
                             MainGrid.Children.Remove(MySnake);//убирает изначальный объект MySnake
                             snake.StartedMySnakeDeleted = true;
                         }
-                        /*if (!snake.CoordAllSnakeUnits.ContainsKey(snake.Head))
-                            snake.CoordAllSnakeUnits.Add(snake.Head, new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop));
-                        else
-                            snake.CoordAllSnakeUnits[snake.Head] = new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop);
-                        if (!snake.CoordAllSnakeUnits.ContainsKey(snake.Tail))
-                            snake.CoordAllSnakeUnits.Add(snake.Tail, new Tuple<double, double>(snake.TailMarginLeft, snake.TailMarginTop));
-                        else
-                            snake.CoordAllSnakeUnits[snake.Tail] = new Tuple<double, double>(snake.TailMarginLeft, snake.TailMarginTop);*/
                     }
                     if (snake.DirectionSnake.Equals("a", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Left", StringComparison.OrdinalIgnoreCase))
                     {
@@ -409,9 +400,10 @@ namespace SimpleSnake
                     {
                         Thickness tempHeadMargin = snake.Head.Margin;
                         snake.HeadMarginLeft += 30;
-                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;//
-                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;//
+                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;
+                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;
                         snake.Bodies[0].Margin = tempHeadMargin;
+                        
                         Rectangle temp = snake.Bodies[0];
                         SimpleSnake.MySnake.CoordAllFirstSnakeUnits[temp] = new Tuple<double, double>(temp.Margin.Left, temp.Margin.Top);
                         snake.Bodies.Remove(snake.Bodies[0]);
@@ -421,8 +413,8 @@ namespace SimpleSnake
                     {
                         Thickness tempHeadMargin = snake.Head.Margin;
                         snake.HeadMarginLeft -= 30;
-                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;//
-                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;//
+                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;
+                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;
                         snake.Bodies[0].Margin = tempHeadMargin;
                         Rectangle temp = snake.Bodies[0];
                         SimpleSnake.MySnake.CoordAllFirstSnakeUnits[temp] = new Tuple<double, double>(temp.Margin.Left, temp.Margin.Top);
@@ -433,8 +425,8 @@ namespace SimpleSnake
                     {
                         Thickness tempHeadMargin = snake.Head.Margin;
                         snake.HeadMarginTop += 30;
-                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;//
-                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;//
+                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;
+                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;
                         snake.Bodies[0].Margin = tempHeadMargin;
                         Rectangle temp = snake.Bodies[0];
                         SimpleSnake.MySnake.CoordAllFirstSnakeUnits[temp] = new Tuple<double, double>(temp.Margin.Left, temp.Margin.Top);
@@ -445,8 +437,8 @@ namespace SimpleSnake
                     {
                         Thickness tempHeadMargin = snake.Head.Margin;
                         snake.HeadMarginTop -= 30;
-                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;//
-                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;//
+                        snake.TailMarginLeft = snake.Bodies[0].Margin.Left;
+                        snake.TailMarginTop = snake.Bodies[0].Margin.Top;
                         snake.Bodies[0].Margin = tempHeadMargin;
                         Rectangle temp = snake.Bodies[0];
                         SimpleSnake.MySnake.CoordAllFirstSnakeUnits[temp] = new Tuple<double, double>(temp.Margin.Left, temp.Margin.Top);
