@@ -56,10 +56,10 @@ namespace SimpleSnake
         {
             BitmapImage bitmapImage = createBitmapImage();
             var w_h = optimizedCoordinates();
-            if (allFood.ContainsKey(new Tuple<double, double>(w_h[0], w_h[1])) && SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(w_h[0], w_h[1])) && w_h[0] == SimpleSnake.MySnake.HeadMargin.Left && w_h[1] == SimpleSnake.MySnake.HeadMargin.Top)
+            if (allFood.ContainsKey(new Tuple<double, double>(w_h[0], w_h[1])) || SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(w_h[0], w_h[1])) || ( w_h[0] == SimpleSnake.MySnake.HeadMargin.Left && w_h[1] == SimpleSnake.MySnake.HeadMargin.Top))
             {
                 var tempArCreateFood = optimizedCoordinates();
-                while(allFood.ContainsKey(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])) && SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])) && tempArCreateFood[0] == SimpleSnake.MySnake.HeadMargin.Left && tempArCreateFood[1] == SimpleSnake.MySnake.HeadMargin.Top)
+                while(allFood.ContainsKey(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])) || SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(tempArCreateFood[0], tempArCreateFood[1])) ||  (tempArCreateFood[0] == SimpleSnake.MySnake.HeadMargin.Left && tempArCreateFood[1] == SimpleSnake.MySnake.HeadMargin.Top))
                 {
                     tempArCreateFood = optimizedCoordinates();
                 }
@@ -453,10 +453,17 @@ namespace SimpleSnake
             }
             else
             {
-                newTail.Fill = Brushes.White;
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = new Uri($"TextureBody.jpg", UriKind.RelativeOrAbsolute);
+                bitmapImage.EndInit();
+                newTail.Fill = new ImageBrush(bitmapImage);
+
+                //newTail.Fill = Brushes.White;
                 newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop, 0, 0);
                 MainGrid.Children.Add(newTail);
                 snake.Growing = true;
+                
                 snake.Bodies.Add(newTail);
                 SimpleSnake.MySnake.CoordAllFirstSnakeUnits.Add(newTail, new Tuple<double, double>(newTail.Margin.Left, newTail.Margin.Top));
             }
