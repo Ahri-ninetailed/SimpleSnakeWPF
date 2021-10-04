@@ -26,12 +26,13 @@ namespace SimpleSnake
 
         private void Music_Checked(object sender, RoutedEventArgs e)
         {
-            GameMenu.backgroundMusic.Stop();
+            SimpleSnake.Music.BackgroundMusic.Stop();
+
         }
 
         private void Music_Unchecked(object sender, RoutedEventArgs e)
         {
-            GameMenu.backgroundMusic.Play();
+            SimpleSnake.Music.BackgroundMusic.Play();
 
         }
     }

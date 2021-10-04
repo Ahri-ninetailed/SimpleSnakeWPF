@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SimpleSnake"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Snake" Height="335.026" Width="252.156" ResizeMode="CanMinimize" Icon="snakeIcon.png" Loaded="Window_Loaded">
+        Title="Snake" Height="335.026" Width="252.156" ResizeMode="CanMinimize" Icon="snakeIcon.png" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered">
     <Window.Background>
         <ImageBrush ImageSource="snakeBackground.jpg" TileMode="FlipX" Stretch="UniformToFill"/>
     </Window.Background>

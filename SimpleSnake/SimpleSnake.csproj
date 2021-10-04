@@ -109,9 +109,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="foodImage.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="snakeBackground.jpg" />
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,7 @@ namespace SimpleSnake
     /// 
     public partial class Food
     {
+        public static string FoodDirectory = "Orange.png";
         public Dictionary<Tuple<double, double>, Image> allFood = new Dictionary<Tuple<double, double>, Image>();
         private Random random = new Random();
         private Image createImage(int left, int top)
@@ -82,7 +83,7 @@ namespace SimpleSnake
             
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri("artichoke_PNG28.png", UriKind.RelativeOrAbsolute);
+            bitmapImage.UriSource = new Uri($"Orange.png", UriKind.RelativeOrAbsolute);
             bitmapImage.EndInit();
             
             return bitmapImage;
@@ -222,7 +223,8 @@ namespace SimpleSnake
         }
         private void timerTickSnakeMoving(object sender, EventArgs e)
         {
-            
+
+
             controlSnake();
             if (foods.allFood.ContainsKey(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop))) //ест апельсин
             {
