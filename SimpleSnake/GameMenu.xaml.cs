@@ -53,6 +53,7 @@ namespace SimpleSnake
     
     public partial class GameMenu : Window
     {
+        public static bool MusicCheckboxIsChecked = false;
         public static System.Windows.Threading.DispatcherTimer TimerMusic = new System.Windows.Threading.DispatcherTimer();
         public GameMenu()
         {
@@ -87,6 +88,7 @@ namespace SimpleSnake
 
             var options = new Options();
             options.WindowStartupLocation = WindowStartupLocation;
+            options.Music.IsChecked = MusicCheckboxIsChecked;
             //options.ShowInTaskbar = true;
             options.ShowDialog();
         }
@@ -104,6 +106,14 @@ namespace SimpleSnake
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             
+        }
+
+        private void Textures_Click(object sender, RoutedEventArgs e)
+        {
+            var options = new Textures();
+            options.WindowStartupLocation = WindowStartupLocation;
+            //options.ShowInTaskbar = true;
+            options.ShowDialog();
         }
     }
 }

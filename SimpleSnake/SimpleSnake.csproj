@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Textures.xaml.cs">
+      <DependentUpon>Textures.xaml</DependentUpon>
+    </Compile>
     <Page Include="GameMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -75,6 +78,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Options.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Textures.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,8 +122,10 @@
     <Resource Include="SnakeIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="8-Bit Misfits - Dollhouse.mp3" />
     <Resource Include="MusicIcon-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Orange.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

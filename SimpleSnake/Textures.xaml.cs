@@ -15,26 +15,13 @@ using System.Windows.Shapes;
 namespace SimpleSnake
 {
     /// <summary>
-    /// Логика взаимодействия для Options.xaml
+    /// Логика взаимодействия для Textures.xaml
     /// </summary>
-    public partial class Options : Window
+    public partial class Textures : Window
     {
-        public Options()
+        public Textures()
         {
             InitializeComponent();
-        }
-
-        private void Music_Checked(object sender, RoutedEventArgs e)
-        {
-            SimpleSnake.Music.BackgroundMusic.Stop();
-            GameMenu.MusicCheckboxIsChecked = true;
-        }
-
-        private void Music_Unchecked(object sender, RoutedEventArgs e)
-        {
-            SimpleSnake.Music.BackgroundMusic.Play();
-            GameMenu.MusicCheckboxIsChecked = false;
-
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

@@ -83,7 +83,7 @@ namespace SimpleSnake
             
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri($"Orange.png", UriKind.RelativeOrAbsolute);
+            bitmapImage.UriSource = new Uri($"{FoodDirectory}", UriKind.RelativeOrAbsolute);
             bitmapImage.EndInit();
             
             return bitmapImage;
