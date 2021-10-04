@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:SimpleSnake"
         mc:Ignorable="d"
         Title="MainWindow" Height="570" Width="780" Loaded="Window_Loaded" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown" Closed="Window_Closed" WindowStyle="None" ResizeMode="NoResize">
-    <Grid Name ="MainGrid" Height="570" Margin="0,0,0,0" Width="780" Background="#FF707070">
+    <Grid Name ="MainGrid" Height="570" Margin="0,0,0,0" Width="780" Background="DarkGreen">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Rectangle Name="MySnake" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="30" Stroke="Black" VerticalAlignment="Top" Width="30" Margin="750,540,0,0"/>
+        <Rectangle Name="MySnake" HorizontalAlignment="Left" Height="30" Stroke="Black"  VerticalAlignment="Top" Width="30" Margin="750,540,0,0" Fill="SaddleBrown"/>
         <Label Name="CoorSnake" Content="Координаты змеи" HorizontalAlignment="Left" Height="190" Margin="149,37,0,0" VerticalAlignment="Top" Width="150" Background="White"/>
-        
+
 
     </Grid>
 </Window>

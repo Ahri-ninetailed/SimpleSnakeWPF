@@ -140,6 +140,7 @@ namespace SimpleSnake
         }
         public Rectangle Head { get; set; } = new Rectangle()
         {
+            //Fill = Brushes.Brown,
             HorizontalAlignment = HorizontalAlignment.Left,
             Height = 30,
             Width = 30,
@@ -239,7 +240,7 @@ namespace SimpleSnake
             }
             void controlSnake()
             {
-                snake.Head.Fill = Brushes.Black;
+                //snake.Head.Fill = Brushes.Black;
                 if (snake.CountHead == 1)
                 {
                     if (snake.DirectionSnake.Equals("d", StringComparison.OrdinalIgnoreCase) || snake.DirectionSnake.Equals("Right", StringComparison.OrdinalIgnoreCase))
@@ -294,7 +295,7 @@ namespace SimpleSnake
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left + 30, snake.Head.Margin.Top, 0, 0);
                         snake.HeadMarginLeft = snake.Head.Margin.Left;
                         snake.HeadMarginTop = snake.Head.Margin.Top;
-                        snake.Head.Fill = Brushes.Black;
+                        snake.Head.Fill = Brushes.SaddleBrown;
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
                         if (!snake.StartedMySnakeDeleted)
@@ -311,6 +312,7 @@ namespace SimpleSnake
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left - 30, snake.Head.Margin.Top, 0, 0);
                         snake.HeadMarginLeft = snake.Head.Margin.Left;
                         snake.HeadMarginTop = snake.Head.Margin.Top;
+                        snake.Head.Fill = Brushes.SaddleBrown;
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
                         if (!snake.StartedMySnakeDeleted)
@@ -327,6 +329,8 @@ namespace SimpleSnake
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left, snake.Head.Margin.Top + 30, 0, 0);
                         snake.HeadMarginLeft = snake.Head.Margin.Left;
                         snake.HeadMarginTop = snake.Head.Margin.Top;
+                        snake.Head.Fill = Brushes.SaddleBrown;
+
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
                         if (!snake.StartedMySnakeDeleted)
@@ -343,6 +347,8 @@ namespace SimpleSnake
                         snake.Head.Margin = new Thickness(snake.Head.Margin.Left, snake.Head.Margin.Top - 30, 0, 0);
                         snake.HeadMarginLeft = snake.Head.Margin.Left;
                         snake.HeadMarginTop = snake.Head.Margin.Top;
+                        snake.Head.Fill = Brushes.SaddleBrown;
+
                         MainGrid.Children.Add(snake.Head);
                         MainGrid.Children.Add(snake.Tail);
                         if (!snake.StartedMySnakeDeleted)
@@ -442,8 +448,9 @@ namespace SimpleSnake
             };
             if (snake.CountHead == 1)
             {
+                newTail.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB25919"));
 
-                newTail.Fill = Brushes.Red;
+               
                 newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop, 0, 0);
                 snake.Tail = newTail;
                 MainGrid.Children.Add(snake.Tail);
@@ -453,12 +460,8 @@ namespace SimpleSnake
             }
             else
             {
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri($"TextureBody.jpg", UriKind.RelativeOrAbsolute);
-                bitmapImage.EndInit();
-                newTail.Fill = new ImageBrush(bitmapImage);
-
+               // newTail.Fill = new SolidColorBrush(Colors.White);#FFB25919
+                newTail.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFB25919"));
                 //newTail.Fill = Brushes.White;
                 newTail.Margin = new Thickness(snake.HeadMarginLeft, snake.HeadMarginTop, 0, 0);
                 MainGrid.Children.Add(newTail);
