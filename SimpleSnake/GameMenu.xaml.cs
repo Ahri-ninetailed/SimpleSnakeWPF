@@ -95,7 +95,7 @@ namespace SimpleSnake
 
         private void Reference_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Управление осуществляется клавишами A, W, S, D или стрелками");
+            MessageBox.Show("Управление осуществляется клавишами A, W, S, D или стрелками.\nПри выборе текстуры еды, нужно выбирать картинку с прозрачным фоном.");
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)

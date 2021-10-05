@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using Microsoft.Win32;
 namespace SimpleSnake
 {
     /// <summary>
@@ -40,6 +40,20 @@ namespace SimpleSnake
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void ChooseTetxure_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files|*.bmp;*.jpg;*.gif;*.png;*.tif|All files|*.*";
+            openFileDialog.FilterIndex = 1;
+            if (openFileDialog.ShowDialog() == true)
+                SimpleSnake.Food.FoodDirectory = openFileDialog.FileName;
+        }
+
+        private void StandartTextureFood_Click(object sender, RoutedEventArgs e)
+        {
+            SimpleSnake.Food.FoodDirectory = "Orange.png";
         }
     }
 }

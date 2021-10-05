@@ -17,7 +17,12 @@
         </Grid.ColumnDefinitions>
         <CheckBox Name="Music" Content="Music Off&#xD;&#xA;" HorizontalAlignment="Left" Height="19" Margin="10,272,0,0" VerticalAlignment="Top" Width="114" FontSize="13" Checked="Music_Checked" Unchecked="Music_Unchecked"/>
         <Button Name="Back" Content="Назад" HorizontalAlignment="Left" Height="19"  Margin="5,5,0,0" VerticalAlignment="Top" Background="White" FontSize="11" Width="37" Click="Back_Click"/>
-
+        <Button Name ="ChooseTetxure" HorizontalAlignment="Left" Height="35"  Margin="11,230,0,0" VerticalAlignment="Top" Background="White" FontSize="11" Width="71" Click="ChooseTetxure_Click">
+            <TextBlock TextAlignment="Center">Выбрать<LineBreak/> текстуру еды</TextBlock>
+        </Button>
+        <Button Name ="StandartTextureFood" HorizontalAlignment="Left" Height="35"  Margin="11,190,0,0" VerticalAlignment="Top" Background="White" FontSize="11" Width="71" Click="StandartTextureFood_Click">
+            <TextBlock TextAlignment="Center"><Run Text="Стандартная"/><LineBreak/><Run Text="текстура еды"/></TextBlock>
+        </Button>
     </Grid>
 
 </Window>
