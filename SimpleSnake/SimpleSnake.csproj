@@ -127,5 +127,12 @@
   <ItemGroup>
     <Resource Include="Orange.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="BadGuy.mp3" />
+    <Content Include="Demons.mp3" />
+    <Content Include="Numb.mp3" />
+    <Content Include="Spotlight.mp3" />
+    <Content Include="SweetDreams.mp3" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
