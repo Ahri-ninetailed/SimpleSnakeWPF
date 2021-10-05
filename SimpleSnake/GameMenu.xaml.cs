@@ -115,5 +115,10 @@ namespace SimpleSnake
             //options.ShowInTaskbar = true;
             options.ShowDialog();
         }
+
+        private void PlayWithFriend_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Coming soon");
+        }
     }
 }

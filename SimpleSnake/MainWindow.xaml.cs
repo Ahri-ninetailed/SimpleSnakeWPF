@@ -36,7 +36,7 @@ namespace SimpleSnake
             };
             return image;
         }
-        private int[] optimizedCoordinates()
+        public int[] optimizedCoordinates()
         {
             int w = random.Next(0, 771);
             int h = random.Next(0, 570);
@@ -181,7 +181,7 @@ namespace SimpleSnake
             timerSnake.Tick += new EventHandler(timerTickSnakeMoving);
             timerSnake.Interval = new TimeSpan(0, 0, 0,0,700);
             timerFood.Tick += new EventHandler(timerTickCreateFood);
-            timerFood.Interval = new TimeSpan(0, 0, 0,0,700);
+            timerFood.Interval = new TimeSpan(0, 0, 0,0,9000);
         }
         private void Snake_SnakeDead()
         {
@@ -189,12 +189,14 @@ namespace SimpleSnake
             { timerFood.Stop(); timerSnake.Stop(); Close(); }
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Background = new SolidColorBrush(Colors.DimGray);
+        { 
+            MainGrid.Children.Add(foods.CreateFood());
         }
         private void timerTickCreateFood(object sender, EventArgs e)
         {
             MainGrid.Children.Add(foods.CreateFood());
+            if ((snake.CountHead - 1) % 3 == 0)
+                timerFood.Interval = new TimeSpan(timerFood.Interval.Days, timerFood.Interval.Hours, timerFood.Interval.Minutes, timerFood.Interval.Seconds, timerFood.Interval.Milliseconds - 130);
         }
         private void timerTickSnakeMoving(object sender, EventArgs e)
         {
@@ -205,6 +207,9 @@ namespace SimpleSnake
                 foods.allFood.Remove(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop));
                 Growth(snake);
                 snake.CountHead += 1;
+                Score.Content = (snake.CountHead - 1).ToString();
+                if ((snake.CountHead-1) % 3 == 0)
+                    timerSnake.Interval = new TimeSpan(timerSnake.Interval.Days, timerSnake.Interval.Hours, timerSnake.Interval.Minutes, timerSnake.Interval.Seconds, timerSnake.Interval.Milliseconds - 35);
             }
             if (SimpleSnake.MySnake.CoordAllFirstSnakeUnits.ContainsValue(new Tuple<double, double>(snake.HeadMarginLeft, snake.HeadMarginTop)) && snake.CountHead > 4 && snake.Growing == false)
             {
@@ -426,6 +431,9 @@ namespace SimpleSnake
         {
             timerSnake.Start();
             timerFood.Start();
+            var temp = foods.optimizedCoordinates();
+            MySnake.Margin = new Thickness(temp[0], temp[1], 0, 0);
+            
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -466,7 +474,7 @@ namespace SimpleSnake
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            MessageBox.Show("Конец игры");
+            MessageBox.Show($"Конец игры. Ваш счет: {Score.Content}.");
         }
 
     }

@@ -11,6 +11,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Rectangle Name="MySnake" HorizontalAlignment="Left" Height="30" Stroke="White"  VerticalAlignment="Top" Width="30" Margin="750,540,0,0" Fill="#FF4B4747"/>
+        <Label Name="Score" Content="0" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="59" Foreground="White" FontSize="18" FontFamily="Impact" Margin="5,4,0,0" Panel.ZIndex="3"/>
 
 
     </Grid>
